@@ -1,4 +1,5 @@
 click
 pyrkube>=0.2.3
 couchdb
-kazoo-sdk>=0.2.2
+kazoo-sdk>=0.2.3
+dnsimple
