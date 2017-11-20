@@ -1,5 +1,10 @@
 # kzconfig changelog
 
+## 0.2.3
+### Nov 20, 2017
+* Add dnsimple to required libs.
+
+
 ## 0.2.2
 ### Nov 20, 2017
 * Instantiate api's safely for added flexibility.

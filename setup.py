@@ -31,7 +31,8 @@ setup(
         'click',
         'couchdb',
         'pyrkube>=0.2.4',
-        'kazoo-sdk>=0.2.2'
+        'kazoo-sdk>=0.2.2',
+        'dnsimple'
     ],
     entry_points=dict(
         console_scripts=['sup = kzconfig.cli:sup_cmd']),
