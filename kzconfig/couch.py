@@ -12,7 +12,10 @@ import json
 import couchdb
 
 from . import util
-from .context import context
+from .context import Context
+
+
+context = Context()
 
 
 p = urlparse(context.env['uri.couchdb'])

@@ -119,24 +119,3 @@ def sup_api(module, function, *args):
 
 def status():
     return sup('kz_nodes', 'status')
-
-
-# def db_refresh(database=''):
-#     return sup('kapps_maintenance', 'refresh', database)
-
-
-# def acct_flush(acct_id):
-#     return sup('kapps_account_config', 'flush', acct_id)
-
-
-# for backwards compatibility
-# def config_set_json(*args, **kwargs):
-#     return KappsConfig.set_json(*args, **kwargs)
-#
-#
-# def config_flush(*args, **kwargs):
-#     return KappsConfig.flush(*args, **kwargs)
-#
-#
-# def config_set_default(*args, **kwargs):
-#     return KappsConfig.set_default(*args, **kwargs)

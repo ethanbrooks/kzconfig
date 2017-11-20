@@ -10,7 +10,10 @@ Kazoo config library.
 import pyrkube
 
 
-api = pyrkube.KubeAPIClient()
+try:
+    api = pyrkube.KubeAPIClient()
+except KubeConfigNotFound:
+    api = False
 
 
 def get_pod(name):

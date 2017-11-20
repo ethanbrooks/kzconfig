@@ -12,11 +12,11 @@ kazoo container.
 import json
 from collections import OrderedDict
 
-from . import kube, context, util, couch, kazoo, sup, dns, cli
+from . import meta, kube, context, util, couch, kazoo, sup, dns, cli
 
 
 __title__ = 'kzconfig'
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 __author__ = "Joe Black <me@joeblack.nyc>"
 __license__ = 'Apache 2.0'
 __copyright__ = 'Copyright 2017 Joe Black'

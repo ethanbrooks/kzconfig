@@ -9,9 +9,10 @@ Kazoo config library.
 
 import kazoo
 
-from .context import context
+from .context import Context
 
 
+context = Context()
 master_acct = context.master_acct
 env = context.env
 
@@ -24,4 +25,7 @@ api = kazoo.Client(
     base_url=env['uri.crossbar']
 )
 
-api.authenticate()
+try:
+    api.authenticate()
+except:
+    api = False
