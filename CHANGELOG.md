@@ -1,5 +1,10 @@
 # kzconfig changelog
 
+## 0.2.2
+### Nov 20, 2017
+* Instantiate api's safely for added flexibility.
+
+
 ## 0.2.1
 ### Nov 16, 2017
 * Added dns from simpledns.
