@@ -17,11 +17,13 @@ from .context import Context
 
 context = Context()
 
-
-p = urlparse(context.env['uri.couchdb'])
-api = couchdb.Server(util.join_url(
-    p.scheme, context.couch['user'], context.couch['pass'], p.netloc
-))
+try:
+    p = urlparse(context.env.get('uri.couchdb', None))
+    api = couchdb.Server(util.join_url(
+        p.scheme, context.couch['user'], context.couch['pass'], p.netloc
+    ))
+except AttributeError:
+    api = None
 
 
 def create_doc(db, doc):

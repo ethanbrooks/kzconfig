@@ -2,6 +2,12 @@
 
 ## 0.2.3
 ### Nov 20, 2017
+* Catch AttributeError's due to missing configmaps and secrets.
+* Add dnspython to required libs.
+
+
+## 0.2.3
+### Nov 20, 2017
 * Add dnsimple to required libs.
 
 

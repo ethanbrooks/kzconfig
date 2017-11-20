@@ -5,10 +5,13 @@ from .context import Context
 
 context = Context()
 
-api = DNSimple(
-    username=context.dns['email'],
-    password=context.dns['password']
-)
+try:
+    api = DNSimple(
+        username=context.dns['email'],
+        password=context.dns['password']
+    )
+except AttributeError:
+    api = None
 
 
 def get(kind='A', name='', content='', *kwargs):
