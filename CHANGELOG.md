@@ -1,5 +1,13 @@
 # kzconfig changelog
 
+
+## 0.3.0
+### Nov 21, 2017
+* Full refactor, abstracted the interface to members of context which are lazy evaluated.
+* Added kubectl module.
+* Added install-kubectl cli command to download and install kubectl and initialize the kube-config file.
+
+
 ## 0.2.3
 ### Nov 20, 2017
 * Catch AttributeError's due to missing configmaps and secrets.

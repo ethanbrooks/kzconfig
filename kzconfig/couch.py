@@ -4,43 +4,57 @@ kzconfig.couch
 
 Kazoo config library.
 
-
 """
 
-from urllib.parse import urlparse, unquote
 import json
+from urllib.parse import urlparse, unquote
+
 import couchdb
 
 from . import util
-from .context import Context
 
 
-context = Context()
+class CouchDBDoc:
+    def __init__(self, parent):
+        self.parent = parent
 
-try:
-    p = urlparse(context.env.get('uri.couchdb', None))
-    api = couchdb.Server(util.join_url(
-        p.scheme, context.couch['user'], context.couch['pass'], p.netloc
-    ))
-except AttributeError:
-    api = None
+    def create(self, db, doc):
+        if isinstance(doc, str):
+            doc = json.loads(doc)
+        doc_id = doc['_id']
 
-
-def create_doc(db, doc):
-    if isinstance(doc, str):
-        doc = json.loads(doc)
-    doc_id = doc['_id']
-
-    db = api[db]
-    if doc_id in db:
-        old_doc = db[doc_id]
-        doc['_rev'] = old_doc.rev
-    return db.save(doc)
+        db = self.parent.api[db]
+        if doc_id in db:
+            old_doc = db[doc_id]
+            doc['_rev'] = old_doc.rev
+        return db.save(doc)
 
 
-def get_db_for(acct_id):
-    db = api['accounts']
-    doc = db[acct_id]
-    db_name = doc['pvt_account_db']
-    print(db_name)
-    return api[unquote(db_name)]
+class CouchDB:
+    def __init__(self, context):
+        env = context.configs['environment']
+        creds = context.secrets['couchdb']
+
+        p = urlparse(env['uri.couchdb'])
+        self.api = couchdb.Server(util.join_url(
+            p.scheme, creds['user'], creds['pass'], p.netloc
+        ))
+        self.doc = CouchDBDoc(self)
+
+    def acct_db(self, acct_id):
+        db = self.api['accounts']
+        doc = db[acct_id]
+        db_name = doc['pvt_account_db']
+        print(db_name)
+        return api[unquote(db_name)]
+
+
+#
+# def get_db_for(acct_id):
+#     api = context.couchdb
+#
+#     db = api['accounts']
+#     doc = db[acct_id]
+#     db_name = doc['pvt_account_db']
+#     print(db_name)
+#     return api[unquote(db_name)]

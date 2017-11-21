@@ -8,6 +8,7 @@ Kazoo config library.
 
 import base64
 import json
+from os.path import join
 
 import dns.resolver
 
@@ -43,3 +44,12 @@ def addrs_for(*domains):
         ans = [a.address for a in dns.resolver.query(domain, 'A')]
         addrs.extend(ans)
     return list(set(addrs))
+
+
+def to_str(items, path='/', flag='data', delim=' '):
+    return delim.join('--{} {}/{}'.format(flag, path, item) for item in items)
+
+
+def read_config(path, base='.'):
+    with open(join(base, path)) as fd:
+        return fd.read().strip()

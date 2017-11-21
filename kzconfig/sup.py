@@ -10,55 +10,55 @@ Kazoo config library.
 import subprocess
 from decimal import Decimal
 
-from . import kazoo, kube, util
+from . import util
 
 
-class KappsMaint:
+class SupCommandBase:
+    def __init__(self, parent):
+        self.parent = parent
+        self.sup = parent.sup
+
+
+class KappsMaint(SupCommandBase):
     module = 'kapps_maintenance'
 
-    @staticmethod
-    def refresh(database=''):
-        return sup(KappsMaint.module, 'refresh', database)
+    def refresh(self, database=''):
+        return self.sup(self.module, 'refresh', database)
 
 
-class KappsAcctConfig:
+class KappsAcctConfig(SupCommandBase):
     module = 'kapps_account_config'
 
-    @staticmethod
-    def get(acct, doc, key, default='undefined'):
+    def get(self, acct, doc, key, default='undefined'):
         if not isinstance(default, str):
             default = str(default)
-        return sup(KappsAcctConfig.module, 'get', acct, doc, key, default)
+        return self.sup(self.module, 'get', acct, doc, key, default)
 
-    @staticmethod
-    def set(acct, doc, key, value):
+    def set(self, acct, doc, key, value):
         if isinstance(value, bytes):
             value = value.decode()
-        return sup(KappsAcctConfig.module, 'set', acct, doc, key, value)
+        return self.sup(self.module, 'set', acct, doc, key, value)
 
-    @staticmethod
-    def flush(acct, doc=None, strategy=None):
+    def flush(self, acct, doc=None, strategy=None):
         args = [acct, doc]
         if strategy:
             args.append(strategy)
-        return sup(KappsAcctConfig.module, 'flush', *args)
+        return self.sup(self.module, 'flush', *args)
 
 
-class KappsConfig:
+class KappsConfig(SupCommandBase):
     module = 'kapps_config'
 
-    @staticmethod
-    def get(doc, key, default='undefined', node=None):
+    def get(self, doc, key, default='undefined', node=None):
         if not isinstance(default, str):
             default = str(default)
 
         args = [doc, key, default]
         if node:
             args.append(node)
-        return sup(KappsConfig.module, 'get', *args)
+        return self.sup(self.module, 'get', *args)
 
-    @staticmethod
-    def set(doc, key, value, node=None):
+    def set(self, doc, key, value, node=None):
         if isinstance(value, bytes):
             value = value.decode()
 
@@ -76,46 +76,56 @@ class KappsConfig:
         args = [doc, key, value]
         if node:
             args.append(node)
-        return sup(KappsConfig.module, func, *args)
+        return self.sup(self.module, func, *args)
 
-    @staticmethod
-    def set_json(doc, key, value):
+    def set_json(self, doc, key, value):
         if not isinstance(value, str):
             value = util.json_dumps(value)
 
-        return sup(KappsConfig.module, 'set_json', doc, key, value)
+        return self.sup(self.module, 'set_json', doc, key, value)
 
-    @staticmethod
-    def set_default(doc, key, value):
-        return sup(KappsConfig.module, 'set_default', doc, key, value)
+    def set_default(self, doc, key, value):
+        return self.sup(self.module, 'set_default', doc, key, value)
 
-    @staticmethod
-    def flush(doc=None, key=None, node=None):
+    def flush(self, doc=None, key=None, node=None):
         args = []
         for arg in (doc, key, node):
             if arg:
                 args.append(arg)
 
-        return sup(KappsConfig.module, 'flush', *args)
+        return self.sup(self.module, 'flush', *args)
 
 
-def sup(module, function, *args):
-    args = list(args)
-    pod = kube.get_pod('kazoo')
-    for idx, arg in enumerate(args):
-        if isinstance(arg, (int, bool)):
-            args[idx] = str(arg)
-
-    args_str = ' '.join([module, function, *args])
-    cmd = 'kubectl exec {} -- sup {}'.format(pod, args_str)
-    print(cmd)
-    return subprocess.getoutput(cmd)
+class KazooNodes(SupCommandBase):
+    module = 'kz_nodes'
+    def status(self):
+        return self.sup(self.module, 'status')
 
 
-def sup_api(module, function, *args):
-    _, result = kazoo.api.sup(module, function, *args)
-    return result
+class Sup:
+    def __init__(self, context):
+        self.context = context
+        self.kapps_maintenance = KappsMaint(self)
+        self.kapps_account_config = KappsAcctConfig(self)
+        self.kapps_config = KappsConfig(self)
+        self.kz_nodes = KazooNodes(self)
 
+    def sup(self, module, function, *args):
+        args = list(args)
+        try:
+            pod = self.context.kube.api.get_first('pod', selector=dict(app='kazoo'))
+        except TypeError:
+            raise RuntimeError('No kazoo app pod found')
 
-def status():
-    return sup('kz_nodes', 'status')
+        for idx, arg in enumerate(args):
+            if isinstance(arg, (int, bool)):
+                args[idx] = str(arg)
+
+        args_str = ' '.join([module, function, *args])
+        cmd = 'kubectl exec {} -- sup {}'.format(pod.name, args_str)
+        print(cmd)
+        return subprocess.getoutput(cmd)
+
+    def sup_api(self, module, function, *args):
+        _, result = self.context.kazoo.sup(module, function, *args)
+        return result

@@ -30,13 +30,17 @@ setup(
     install_requires=[
         'click',
         'couchdb',
-        'pyrkube>=0.2.4',
-        'kazoo-sdk>=0.2.2',
+        'pyrkube>=0.2.5',
+        'kazoo-sdk>=0.2.3',
         'dnsimple',
         'dnspython'
     ],
     entry_points=dict(
-        console_scripts=['sup = kzconfig.cli:sup_cmd']),
+        console_scripts=[
+            'sup = kzconfig.cli.sup:main',
+            'install-kubectl = kzconfig.cli.kubectl:download'
+        ]
+    ),
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
