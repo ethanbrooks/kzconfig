@@ -1,3 +1,4 @@
+requests
 click
 pyrkube>=0.2.5
 couchdb

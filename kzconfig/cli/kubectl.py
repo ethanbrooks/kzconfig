@@ -49,7 +49,8 @@ users:
 
 
 @click.command()
-def download():
+@click.option('--with-kubeconfig', type=bool, default=False)
+def main(with_kubeconfig):
     path = KUBECTL_DOWNLOAD_DIR / 'kubectl-{}'.format(KUBECTL_VERSION)
     if not path.exists():
         try:
@@ -78,7 +79,9 @@ def download():
         if KUBECTL_LINK_PATH.exists():
             os.remove(KUBECTL_LINK_PATH)
         KUBECTL_LINK_PATH.symlink_to(path)
-        write_kubeconfig()
+
+        if with_kubeconfig:
+            write_kubeconfig()
     return str(path)
 
 

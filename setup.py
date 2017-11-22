@@ -28,6 +28,7 @@ setup(
     packages=find_packages(),
     package_data={'': ['LICENSE']},
     install_requires=[
+        'requests',
         'click',
         'couchdb',
         'pyrkube>=0.2.5',
@@ -38,7 +39,7 @@ setup(
     entry_points=dict(
         console_scripts=[
             'sup = kzconfig.cli.sup:main',
-            'install-kubectl = kzconfig.cli.kubectl:download'
+            'install-kubectl = kzconfig.cli.kubectl:main'
         ]
     ),
     classifiers=[

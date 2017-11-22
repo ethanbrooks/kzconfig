@@ -1,6 +1,11 @@
 # kzconfig changelog
 
 
+## 0.3.1
+### Nov 22, 2017
+* Added option `with-kubeconfig` to install-kubectl cli tool.
+
+
 ## 0.3.0
 ### Nov 21, 2017
 * Full refactor, abstracted the interface to members of context which are lazy evaluated.
