@@ -1,5 +1,9 @@
 # kzconfig changelog
 
+## 0.3.3
+### Nov 27, 2017
+* Bugfixes.
+
 
 ## 0.3.1
 ### Nov 22, 2017

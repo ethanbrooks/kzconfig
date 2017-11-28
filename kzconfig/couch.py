@@ -45,8 +45,7 @@ class CouchDB:
         db = self.api['accounts']
         doc = db[acct_id]
         db_name = doc['pvt_account_db']
-        print(db_name)
-        return api[unquote(db_name)]
+        return self.api[unquote(db_name)]
 
 
 #
