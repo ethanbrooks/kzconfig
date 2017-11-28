@@ -25,6 +25,9 @@ class KappsMaint(SupCommandBase):
     def refresh(self, database=''):
         return self.sup(self.module, 'refresh', database)
 
+    def blocking_refresh(self, database=''):
+        return self.sup(self.module, 'blocking_refresh', database)
+
 
 class KappsAcctConfig(SupCommandBase):
     module = 'kapps_account_config'

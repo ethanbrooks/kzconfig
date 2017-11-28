@@ -18,5 +18,4 @@ from ..context import Context
 @click.argument('args', nargs=-1)
 def main(module, function, args):
     context = Context()
-    print(context.sup.sup(module, function, *args))
     return click.echo(context.sup.sup(module, function, *args))

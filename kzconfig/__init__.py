@@ -16,7 +16,7 @@ from . import meta, util, context, couch, kazoo, sup, dns, cli
 from .context import Context
 
 __title__ = 'kzconfig'
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 __author__ = "Joe Black <me@joeblack.nyc>"
 __license__ = 'Apache 2.0'
 __copyright__ = 'Copyright 2017 Joe Black'
