@@ -32,7 +32,7 @@ setup(
         'click',
         'couchdb',
         'pyrkube>=0.2.5',
-        'kazoo-sdk>=0.2.3',
+        'kazoo-sdk>=0.2.4',
         'dnsimple',
         'dnspython'
     ],

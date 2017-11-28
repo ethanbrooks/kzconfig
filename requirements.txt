@@ -2,6 +2,6 @@ requests
 click
 pyrkube>=0.2.5
 couchdb
-kazoo-sdk>=0.2.3
+kazoo-sdk>=0.2.4
 dnsimple
 dnspython

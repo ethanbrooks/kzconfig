@@ -84,6 +84,7 @@ class KappsConfig(SupCommandBase):
     def set_json(self, doc, key, value):
         if not isinstance(value, str):
             value = util.json_dumps(value)
+        value = "'{}'".format(value)
 
         return self.sup(self.module, 'set_json', doc, key, value)
 

@@ -13,6 +13,6 @@ for c in collections:
     ns.add_collection(c)
 
 ns.configure(dict(
-    project='kazoo-sdk',
+    project='kzconfig',
     pwd=os.getcwd()
 ))

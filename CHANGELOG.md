@@ -1,5 +1,11 @@
 # kzconfig changelog
 
+## 0.3.4
+### Nov 28, 2017
+* Slight changes to make Context more pythonic and subclassable.
+* Document the kzconfig API.
+
+
 ## 0.3.3
 ### Nov 27, 2017
 * Bugfixes.

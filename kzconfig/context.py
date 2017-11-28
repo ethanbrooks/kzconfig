@@ -26,10 +26,10 @@ class Context(metaclass=meta.Singleton):
         self.domain = domain
 
     def _get_configmap(self, name):
-        return self.kube.api.get('configmap', name).data
+        return self.kube.api.get('configmap', name)['data']
 
     def _get_secret(self, name):
-        return self.kube.api.get('secret', name).data
+        return self.kube.api.get('secret', name)['data']
 
     @meta.lazy_property
     def configs(self):
@@ -59,7 +59,7 @@ class Context(metaclass=meta.Singleton):
 
     @meta.lazy_property
     def dns(self):
-        return DNS(self)
+        return DNS(self, self.domain)
 
     @meta.lazy_property
     def sup(self):
