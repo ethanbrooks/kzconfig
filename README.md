@@ -1,6 +1,6 @@
 # kzconfig
 
-General kazoo configuration wrappers and helpers.  Wraps the following:
+General kazoo configuration wrappers and helpers.  Wraps the following libraries:
 * python-couchdb
 * kazoo-sdk
 * pyrkube
